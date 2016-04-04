@@ -1,0 +1,27 @@
+#pokemon-list{
+  display : inline-block;
+}
+#pokemons{
+  width : 500px;
+  display : inline-block;
+}
+  li {
+    border : 1px solid black;
+    display: inline-block;
+    margin: 0 10px 5px 0 ;
+    list-style: none;
+  }
+  span {
+    display: block;
+  }
+  button {
+    display: block;
+  }
+  #pokemon-details{
+    display : none;
+    vertical-align: top;
+  }
+
+  .none {
+    display: none;
+  }
