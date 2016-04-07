@@ -12,14 +12,16 @@
 <body>
   <body ng-app='pokedexApp'>
       <div ng-controller='PokedexCtrl'>
-        <a data-ng-click="showFire()">Check All</a>
-        <div ng-repeat='type in pokemonType.objects'>
-          <label>{{type.name}}</label>
-          <input type="checkbox">
+        <a>Check All</a>
+        <div>
+          <div ng-repeat='type in pokemonTypes.objects'>
+            <label for={{type.name}}>{{type.name}}</label>
+            <input ng-click = "removeInitState()" type="checkbox" name={{type.name}} checked="false" ng-change="includeTypes(type)" ng-model='type.checked' ng-init="type.checked = false" id={{type.name}}>
+          </div>
         </div>
         <div id='pokemon-list'>
           <ul id='pokemons'>
-            <li ng-repeat='pokemon in pokemons.objects' class='pokemon' ng-show="pokemon.visibility">
+            <li ng-repeat='pokemon in pokemons.objects' class='pokemon' ng-show="pokemon.checked" ng-init="pokemon.checked = true">
               <a href="#" ng-click = "getInfo(pokemon.pkdx_id)">
                 <h3>{{pokemon.name}}</h3>
                 <img ng-src="http://pokeapi.co/media/img/{{pokemon.pkdx_id}}.png" width='100' alt="{{pokemon.name}}" />
