@@ -3,12 +3,12 @@ var pokedexApp = angular.module('pokedexApp',[]);
 
 pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
     function ($scope, $http){
-        $http.get('http://pokeapi.co/api/v1/pokemon/?limit=12').success(function(data){
-            $scope.pokemons = data;
-        });
-        $http.get('http://pokeapi.co/api/v1/type/?limit=999').success(function(data){
-            $scope.pokemonTypes = data;
-        });
+      $http.get('http://pokeapi.co/api/v1/pokemon/?limit=12').success(function(data){
+          $scope.pokemons = data;
+      });
+      $http.get('http://pokeapi.co/api/v1/type/?limit=999').success(function(data){
+          $scope.pokemonTypes = data;
+      });
 
     $scope.getInfo = function(id){
       $http.get('http://pokeapi.co/api/v1/pokemon/' + id).success(function(data){
@@ -24,17 +24,6 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
           $scope.pokemons.objects = $scope.pokemons.objects.concat(data.objects);
       });
       $scope.removeInitState = true;
-
-      // var filterObj = $scope.pokemons.objects;
-      // alert("ola");
-      //
-      // for (var pokemon in filterObj) {
-      //   if (!filterObj[pokemon].checked) {
-      //     filterObj[pokemon].checked = true;
-      //   } else {
-      //     filterObj[pokemon].checked = false;
-      //   }
-      // }
     };
 
     // $scope.checkFilterType = function() {
@@ -77,15 +66,14 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
       //   }
       // });
     // };
+    $scope.countChecked = 0;
+    $scope.filterChecked = [];
 
     $scope.removeInitState = function() {
       var filterObj = $scope.pokemons.objects;
-
-      for (var pokemon in filterObj) {
-        filterObj[pokemon].checked = false;
-      }
-
-      $scope.removeInitState = false;
+        for (var pokemon in filterObj) {
+          filterObj[pokemon].checked = false;
+        }
     };
 
     $scope.returnInitState = function() {
@@ -93,31 +81,94 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
       for (var pokemon in filterObj) {
         filterObj[pokemon].checked = true;
       }
-
-      $scope.removeInitState = true;
     };
 
-    $scope.countChecked = 0;
+    $scope.checkAll = function () {
+        $scope.filterChecked = [];
+        if (!$scope.selectedAll) {
+            $scope.selectedAll = true;
+            for (var type in $scope.pokemonTypes.objects) {
+              var name = $scope.pokemonTypes.objects[type].name.toLowerCase();
+              $scope.filterChecked.push(name);
+            }
+        } else {
+            $scope.selectedAll = false;
+            $scope.returnInitState();
+        }
+        angular.forEach($scope.pokemonTypes.objects , function (type) {
+            type.selected = $scope.selectedAll;
+        });
+
+        $scope.displayPokemons($scope.filterChecked);
+
+    };
+
+    // $scope.checkAll = function() {
+    //   $("input[type='checkbox']").each(function(){
+    //     $(this).prop("checked", true).change();
+    //   });
+    //
+    //   $scope.filterChecked = [];
+    //
+    //   for (var type in $scope.pokemonTypes.objects) {
+    //     var name = $scope.pokemonTypes.objects[type].name.toLowerCase();
+    //     $scope.filterChecked.push(name);
+    //   }
+    //
+    //   $scope.displayPokemons($scope.filterChecked);
+    // };
 
     $scope.includeTypes = function(type) {
+      var name = type.name.toLowerCase();
+      var index = $scope.filterChecked.indexOf(name);
+      if (type.selected) {
+        $scope.filterChecked.push(name);
+      } else {
+        $scope.filterChecked.splice(index, 1);
+      }
+
+      $scope.displayPokemons($scope.filterChecked);
+    };
+
+    $scope.displayPokemons = function(checked) {
       var filterObj = $scope.pokemons.objects;
       for (var pokemon in filterObj) {
-        if (filterObj[pokemon].types[0].name === type.name.toLowerCase() && type.checked) {
-          filterObj[pokemon].checked = true;
-        } else if (filterObj[pokemon].types[0].name === type.name.toLowerCase() && !type.checked){
-          filterObj[pokemon].checked = false;
+        var pokTypes = filterObj[pokemon].types;
+        for (var poktype in pokTypes) {
+          var index = checked.indexOf(filterObj[pokemon].types[poktype].name);
+          console.log(filterObj[pokemon].types[poktype].name);
+          console.log(checked);
+          if (index !== -1) {
+            filterObj[pokemon].checked = true;
+            }
+          }
         }
-      }
-      if (type.checked) {
-        $scope.countChecked++;
-        console.log($scope.countChecked);
-      } else {
-        $scope.countChecked--;
-        console.log($scope.countChecked);
-        if ($scope.countChecked === 0) {
+
+        if ($scope.filterChecked.length === 0) {
           $scope.returnInitState();
         }
-      }
-    };
+      };
+
+      // var filterObj = $scope.pokemons.objects;
+      // for (var pokemon in filterObj) {
+      //   var pokTypes = filterObj[pokemon].types;
+      //     for (var poktype in pokTypes) {
+      //       if (filterObj[pokemon].types[poktype].name === type.name.toLowerCase() && type.checked) {
+      //         filterObj[pokemon].checked = true;
+      //         break;
+      //       } else if (filterObj[pokemon].types[0].name === type.name.toLowerCase() && !type.checked){
+      //         filterObj[pokemon].checked = false;
+      //       }
+      //     }
+      // }
+      // if (type.checked) {
+      //   $scope.countChecked++;
+      // } else {
+      //   $scope.countChecked--;
+      //   if ($scope.countChecked === 0) {
+      //     $scope.returnInitState();
+      //   }
+      // }
+    // };
 
    }]);

@@ -12,11 +12,12 @@
 <body>
   <body ng-app='pokedexApp'>
       <div ng-controller='PokedexCtrl'>
-        <a>Check All</a>
+        <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
         <div>
           <div ng-repeat='type in pokemonTypes.objects'>
-            <label for={{type.name}}>{{type.name}}</label>
-            <input ng-click = "removeInitState()" type="checkbox" name={{type.name}} checked="false" ng-change="includeTypes(type)" ng-model='type.checked' ng-init="type.checked = false" id={{type.name}}>
+            <label for={{type.name}}>{{type.name}}
+              <input ng-click = "removeInitState()" type="checkbox" name={{type.name}} checked="false" ng-change="includeTypes(type)" ng-model='type.selected' ng-init="type.selected = false" id={{type.name}}>
+            </label>
           </div>
         </div>
         <div id='pokemon-list'>
