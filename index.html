@@ -5,37 +5,41 @@
   <title>Pokedesk</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
   <script src="pokemon.js"></script>
   <link rel="stylesheet" type="text/css" href="pokemon.css">
 </head>
 <body>
   <body ng-app='pokedexApp'>
       <div ng-controller='PokedexCtrl'>
-        <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
-        <div>
+        <div class="filter">
+          <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
           <div ng-repeat='type in pokemonTypes.objects'>
             <label for={{type.name}}>{{type.name}}
               <input ng-click = "removeInitState()" type="checkbox" name={{type.name}} checked="false" ng-change="includeTypes(type)" ng-model='type.selected' ng-init="type.selected = false" id={{type.name}}>
             </label>
           </div>
         </div>
-        <div id='pokemon-list'>
-          <ul id='pokemons'>
-            <li ng-repeat='pokemon in pokemons.objects' class='pokemon' ng-show="pokemon.checked" ng-init="pokemon.checked = true">
-              <a href="#" ng-click = "getInfo(pokemon.pkdx_id)">
-                <h3>{{pokemon.name}}</h3>
-                <img ng-src="http://pokeapi.co/media/img/{{pokemon.pkdx_id}}.png" width='100' alt="{{pokemon.name}}" />
-                <span ng-repeat='type in pokemon.types'>{{type.name}}</span>
+        <div class="pokemon-preloader">
+          
+        </div>
+        <div class="pokemon-board" id='pokemon-list'>
+          <ul class="pokemon-board__list" id='pokemons'>
+            <li class="pokemon" ng-repeat='pokemon in pokemons.objects' ng-show="pokemon.checked" ng-init="pokemon.checked = true">
+              <a class="pokemon__wrapper" ng-click = "getInfo(pokemon.pkdx_id)">
+                <h3 class="pokemon__name">{{pokemon.name}}</h3>
+                <img class="pokemon__image" ng-src="http://pokeapi.co/media/img/{{pokemon.pkdx_id}}.png" width='100' alt="{{pokemon.name}}" />
+                <span class="pokemon__type" ng-repeat='type in pokemon.types'>{{type.name}}</span>
               </a>
             </li>
           </ul>
-          <button type="button" ng-click='loadMore(pokemons.meta.next)'>Load More</button>
+          <div class="button-container">
+            <button class="btn-more" type="button" ng-show="loadMoreButton" ng-init="loadMoreButton = true" ng-click='loadMorePokemons(pokemons.meta.next)'>Load More</button>
+          </div>
         </div>
-        <div id='pokemon-details'>
+        <div class='pokemon-details'>
             <img src="" id='pokemonPic' width='200'/>
             <h2>{{pokemonInfo.name}} #{{("0000" + pokemonInfo.pkdx_id).slice(-4)}}</h2>
-            <table border="1">
+            <table boarder="1">
               <tr>
                 <td>Type</td>
                 <td><span ng-repeat='type in pokemonInfo.types'>{{type.name}} </span></td>
@@ -48,7 +52,7 @@
               </tr>
               <tr>
                 <td>HP</td> <td>{{pokemonInfo.hp}}</td>
-              </tr>objects.
+              </tr>
               <tr>
                 <td>SP Atack</td> <td>{{pokemonInfo.sp_atk}}</td>
               </tr>
