@@ -2,11 +2,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Pokedesk</title>
+  <title>Pokedex</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="pokemon.js"></script>
-  <link rel="stylesheet" type="text/css" href="pokemon.css">
+  <script src="pokemon.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="pokemon.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 </head>
 <body>
   <body ng-app='pokedexApp'>
@@ -17,9 +18,8 @@
         </div>
       </div>
       <div class="pokedex" ng-controller='PokedexCtrl'>
-
         <header class="header">
-          <h1 class="header__title pokedex-wrapper">POCKET DESK</h1>
+          <h1 class="header__title pokedex-wrapper">POKEDEX</h1>
         </header>
 
         <div class="filter pokedex-wrapper">
@@ -34,13 +34,17 @@
         <div class="pokemon-board" id='pokemon-list'>
           <ul class="pokemon-board__list pokedex-wrapper" id='pokemons'>
             <li class="pokemon" ng-repeat='pokemon in pokemons.objects' ng-show="pokemon.checked" ng-init="pokemon.checked = true">
-              <a class="pokemon__wrapper" ng-click = "getInfo(pokemon.pkdx_id)">
+              <a class="pokemon__wrapper" ng-click = "getInfo(pokemon.pkdx_id, $event)">
                 <div class="pokemon__body">
                   <h3 class="pokemon__name">{{pokemon.name}}</h3>
                   <img class="pokemon__image" ng-src="http://pokeapi.co/media/img/{{pokemon.pkdx_id}}.png" alt="{{pokemon.name}}" />
                 </div>
                 <span class="pokemon__type {{type.name}}" ng-repeat='type in pokemon.types'>{{type.name}}</span>
               </a>
+              <div class="pokemon__spinner">
+                <div class="pokedex__bounce1"></div>
+                <div class="pokedex__bounce2"></div>
+              </div>
             </li>
           </ul>
           <div class="button-container">
@@ -51,40 +55,44 @@
             </div>
           </div>
         </div>
-
-        <div class='pokemon-details'>
-            <img src="" id='pokemonPic' width='200'/>
-            <h2>{{pokemonInfo.name}} #{{("0000" + pokemonInfo.pkdx_id).slice(-4)}}</h2>
-            <table boarder="1">
-              <tr>
-                <td>Type</td>
-                <td><span ng-repeat='type in pokemonInfo.types'>{{type.name}} </span></td>
-              </tr>
-              <tr>
-                <td>Attack</td> <td>{{pokemonInfo.attack}}</td>
-              </tr>
-              <tr>
-                <td>Defense</td> <td>{{pokemonInfo.defense}}</td>
-              </tr>
-              <tr>
-                <td>HP</td> <td>{{pokemonInfo.hp}}</td>
-              </tr>
-              <tr>
-                <td>SP Atack</td> <td>{{pokemonInfo.sp_atk}}</td>
-              </tr>
-              <tr>
-                <td>SP Deffense</td> <td>{{pokemonInfo.sp_def}}</td>
-              </tr>
-              <tr>
-                <td>Speed</td><td>{{pokemonInfo.speed}}</td>
-              </tr>
-              <tr>
-                <td>Weight</td><td>{{pokemonInfo.weight}}</td>
-              </tr>
-              <tr>
-                <td>Total movesS</td><td>{{pokemonInfo.moves.length}}</td>
-              </tr>
-            </table>
+        <div id="pokemon-details" class='pokemon-details'>
+          <div class="pokemon-details__container">
+            <div class="pokemon-details__body">
+              <div class="pokemon-details__cross" ng-click="closePopup($event)"></div>
+              <h2 class="pokemon-details__title">{{pokemonInfo.name}} #{{("0000" + pokemonInfo.pkdx_id).slice(-4)}}</h2>
+              <img class="pokemon-details__image" src="" id='pokemonPic'/>
+              <table class="pokemon-details__table" boarder="1">
+                <tr>
+                  <td>Type</td>
+                  <td><span ng-repeat='type in pokemonInfo.types'>{{type.name}} </span></td>
+                </tr>
+                <tr>
+                  <td>Attack</td> <td>{{pokemonInfo.attack}}</td>
+                </tr>
+                <tr>
+                  <td>Defense</td> <td>{{pokemonInfo.defense}}</td>
+                </tr>
+                <tr>
+                  <td>HP</td> <td>{{pokemonInfo.hp}}</td>
+                </tr>
+                <tr>
+                  <td>SP Atack</td> <td>{{pokemonInfo.sp_atk}}</td>
+                </tr>
+                <tr>
+                  <td>SP Deffense</td> <td>{{pokemonInfo.sp_def}}</td>
+                </tr>
+                <tr>
+                  <td>Speed</td><td>{{pokemonInfo.speed}}</td>
+                </tr>
+                <tr>
+                  <td>Weight</td><td>{{pokemonInfo.weight}}</td>
+                </tr>
+                <tr>
+                  <td>Total moves</td><td>{{pokemonInfo.moves.length}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
         <footer class="footer">
           <div class="pokedex-wrapper">
