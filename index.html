@@ -2,11 +2,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Pokedesk</title>
+  <title>Pokedex</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="pokemon.js"></script>
   <link rel="stylesheet" type="text/css" href="pokemon.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 </head>
 <body>
   <body ng-app='pokedexApp'>
@@ -17,9 +18,8 @@
         </div>
       </div>
       <div class="pokedex" ng-controller='PokedexCtrl'>
-
         <header class="header">
-          <h1 class="header__title pokedex-wrapper">POCKET DESK</h1>
+          <h1 class="header__title pokedex-wrapper">POKEDEX</h1>
         </header>
 
         <div class="filter pokedex-wrapper">

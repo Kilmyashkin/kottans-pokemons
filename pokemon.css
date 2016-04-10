@@ -1,5 +1,10 @@
 * { padding: 0; margin: 0; box-sizing: border-box}
 
+@font-face {
+    src: url('fonts/gill.otf');
+    font-family: "Gill Sans";
+}
+
 html, body, .pokedex {
   height: 100%;
   width: 100%;
@@ -31,6 +36,66 @@ html, body, .pokedex {
 
 .pokedex-wrapper {
   margin: 0 auto;
+}
+
+.pokemon {
+  position: relative;
+  width: 200px;
+  height: 215px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 0;
+  float: left;
+  margin: 0 15px 30px 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.pokemon__wrapper {
+  display: block;
+}
+
+.pokemon__wrapper--inactive {
+  display: none;
+}
+
+.pokemon:hover {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.11);
+}
+
+.pokemon__body {
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 13px;
+  height: 170px;
+  box-sizing: border-box;
+}
+
+.pokemon__name {
+  color: #3266af;
+  font-family: "Gill Sans";
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pokemon__image {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.pokemon__type {
+  display: inline-block;
+  /*opacity: 0.2;*/
+  border: 1px solid;
+  border-color: #3266af;
+  border-radius: 100px;
+  padding: 2px 7px;
+  margin-top: 10px;
+  font-family: "Gill Sans";
+  font-size: 10px;
+  margin-right: 6px;
 }
 
 
@@ -69,6 +134,14 @@ html, body, .pokedex {
     max-width: 500px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .pokemon {
+    margin: 0 auto 30px;
+    float: none;
+  }
+}
+
 
 .pokedex {
   width: 100%;
@@ -120,6 +193,7 @@ li {
   width: 100%;
   z-index: 999;
   position: fixed;
+  border-radius: 3px;
   top: 0;
   bottom: 0;
 }
@@ -248,67 +322,6 @@ li {
   font-size: 14px;
   font-weight: 400;
 }
-
-.pokemon {
-  position: relative;
-  width: 200px;
-  height: 215px;
-  background-color: white;
-  border-radius: 5px;
-  padding: 0;
-  float: left;
-  margin: 0 15px 30px 15px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.pokemon__wrapper {
-  display: block;
-}
-
-.pokemon__wrapper--inactive {
-  display: none;
-}
-
-.pokemon:hover {
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.11);
-}
-
-.pokemon__body {
-  background-color: rgba(0, 0, 0, 0.02);
-  padding: 13px;
-  height: 170px;
-  box-sizing: border-box;
-}
-
-.pokemon__name {
-  color: #3266af;
-  font-family: "Gill Sans";
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.pokemon__image {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
-  margin: 0 auto;
-  display: block;
-}
-
-.pokemon__type {
-  display: inline-block;
-  /*opacity: 0.2;*/
-  border: 1px solid;
-  border-color: #3266af;
-  border-radius: 100px;
-  padding: 2px 7px;
-  margin-top: 10px;
-  font-family: "Gill Sans";
-  font-size: 10px;
-  margin-right: 6px;
-}
-
 
 
 @keyframes spinner {
@@ -525,6 +538,7 @@ li {
   font-family: "Gill Sans";
   font-size: 14px;
   font-weight: 400;
+  margin-left: 15px;
   border-bottom: 1px solid rgba(50, 102, 175, .2);
   float: left;
   text-decoration: none;
@@ -532,6 +546,7 @@ li {
 
 .footer__message {
   float: right;
+  margin-right: 15px;
   display: block;
   opacity: 0.4;
   color: rgb(66, 66, 66);
