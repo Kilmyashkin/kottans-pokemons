@@ -46,7 +46,7 @@ html, body, .pokedex {
   border-radius: 5px;
   padding: 0;
   float: left;
-  margin: 0 15px 30px 15px;
+  margin: 0 10px 30px 10px;
   padding: 10px;
   cursor: pointer;
 }
@@ -100,37 +100,31 @@ html, body, .pokedex {
 
 @media screen and (max-width: 2039px) {
   .pokedex-wrapper {
-    max-width: 1750px;
+    max-width: 1540px;
   }
 }
 
 @media screen and (max-width: 1789px) {
   .pokedex-wrapper {
-    max-width: 1500px;
-  }
-}
-
-@media screen and (max-width: 1539px) {
-  .pokedex-wrapper {
-    max-width: 1250px;
+    max-width: 1100px;
   }
 }
 
 @media screen and (max-width: 1289px) {
   .pokedex-wrapper {
-    max-width: 1000px;
+    max-width: 885px;
   }
 }
 
 @media screen and (max-width: 1039px) {
   .pokedex-wrapper {
-    max-width: 750px;
+    max-width: 663px;
   }
 }
 
 @media screen and (max-width: 789px) {
   .pokedex-wrapper {
-    max-width: 500px;
+    max-width: 441px;
   }
 }
 
