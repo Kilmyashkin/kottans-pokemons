@@ -16,12 +16,20 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
       });
 
 
-    $scope.getInfo = function(id){
+    $scope.getInfo = function(id, $event){
+      $pokemon = $($event.target).closest('.pokemon');
+
+      $pokemon.find('.pokemon__spinner').addClass("pokemon__spinner--active");
+      $pokemon.find('.pokemon__wrapper').addClass("pokemon__wrapper--inactive");
+      
       $http.get('http://pokeapi.co/api/v1/pokemon/' + id).success(function(data){
           $scope.pokemonInfo = data;
+          $('.pokemon__spinner').removeClass("pokemon__spinner--active");
+          $('.pokemon__wrapper').removeClass("pokemon__wrapper--inactive");
+          $('.pokemon-details').css('display', 'inline-block');
+          $('body').css({'position': 'fixed','overflow': 'scroll'});
+          $('#pokemonPic').attr('src', 'http://pokeapi.co/media/img/'+ id +'.png');
       });
-      $('.pokemon-details').css('display', 'inline-block');
-      $('#pokemonPic').attr('src', 'http://pokeapi.co/media/img/'+ id +'.png');
     };
 
     $scope.loadMorePokemons = function(url){
@@ -102,3 +110,15 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
       };
 
    }]);
+
+$(document).on("mousedown","#pokemon-details",function() {
+  closePopup(event);
+});
+
+function closePopup(event) {
+   event.preventDefault();
+   if ( $(event.target).hasClass('pokemon-details') || $(event.target).hasClass('pokemon-details__cross')) {
+     $('.pokemon-details').fadeOut(300);
+     $('body').css('position', 'static');
+   }
+ }
