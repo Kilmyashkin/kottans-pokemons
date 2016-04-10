@@ -3,14 +3,18 @@ var pokedexApp = angular.module('pokedexApp',[]);
 
 pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
     function ($scope, $http){
-      $('.pokemon-preloader').addClass("pokemon-preloader--active");
-      $http.get('http://pokeapi.co/api/v1/pokemon/?limit=12').success(function(data){
-          $scope.pokemons = data;
-          $('.pokemon-preloader').removeClass("pokemon-preloader--active");
-      });
+      $('.pokedex__preloader').addClass("pokedex__preloader--active");
+      $('.pokedex').addClass("pokedex--hide-filter pokedex--hide-pokemons");
       $http.get('http://pokeapi.co/api/v1/type/?limit=999').success(function(data){
           $scope.pokemonTypes = data;
+          $('.pokedex').removeClass("pokedex--hide-pokemons");
       });
+      $http.get('http://pokeapi.co/api/v1/pokemon/?limit=12').success(function(data){
+          $scope.pokemons = data;
+          $('.pokedex__preloader').removeClass("pokedex__preloader--active");
+          $('.pokedex').removeClass("pokedex--hide-filter");
+      });
+
 
     $scope.getInfo = function(id){
       $http.get('http://pokeapi.co/api/v1/pokemon/' + id).success(function(data){
@@ -21,11 +25,13 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
     };
 
     $scope.loadMorePokemons = function(url){
-      $('.btn-more').addClass("btn-more--loader");
+      $('.btn-more__spinner').addClass("btn-more__spinner--active");
+      $('.btn-more').addClass("btn-more--inactive");
       $http.get('http://pokeapi.co/' + url).success(function(data){
           $scope.pokemons.meta = data.meta;
           $scope.pokemons.objects = $scope.pokemons.objects.concat(data.objects);
-          $('.btn-more').removeClass("btn-more--loader");
+          $('.btn-more__spinner').removeClass("btn-more__spinner--active");
+          $('.btn-more').removeClass("btn-more--inactive");
       });
 
       $scope.loadMoreButton = true;
@@ -51,16 +57,9 @@ pokedexApp.controller('PokedexCtrl', ['$scope', '$http',
     $scope.checkAll = function () {
         $scope.loadMoreButton = true;
         $scope.filterChecked = [];
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-            for (var type in $scope.pokemonTypes.objects) {
-              var name = $scope.pokemonTypes.objects[type].name.toLowerCase();
-              $scope.filterChecked.push(name);
-            }
-        } else {
-            $scope.selectedAll = false;
-            $scope.returnInitState();
-        }
+
+        $scope.selectedAll = false;
+        $scope.returnInitState();
         angular.forEach($scope.pokemonTypes.objects , function (type) {
             type.selected = $scope.selectedAll;
         });
